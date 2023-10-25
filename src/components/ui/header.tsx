@@ -1,6 +1,13 @@
 import { Card } from "./card";
 import { Button } from "./button";
-import { MenuIcon, ShoppingCartIcon, LogInIcon, PercentCircleIcon, PercentIcon, ListOrderedIcon, HomeIcon } from "lucide-react";
+import {
+  MenuIcon,
+  ShoppingCartIcon,
+  LogInIcon,
+  PercentIcon,
+  ListOrderedIcon,
+  HomeIcon,
+} from "lucide-react";
 import { Sheet, SheetContent, SheetHeader, SheetTrigger } from "./sheet";
 
 const Header = () => {
