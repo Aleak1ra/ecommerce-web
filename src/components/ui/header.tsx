@@ -1,13 +1,25 @@
 import { Card } from "./card";
 import { Button } from "./button";
 import { MenuIcon, ShoppingCartIcon } from "lucide-react";
+import { Sheet, SheetContent, SheetHeader, SheetTrigger } from "./sheet";
 
 const Header = () => {
   return (
     <Card className="flex items-center justify-between p-[1.875rem]">
-      <Button size="icon" variant={"outline"}>
-        <MenuIcon />
-      </Button>
+      <Sheet>
+        <SheetTrigger asChild>
+          <Button size="icon" variant="outline">
+            <MenuIcon />
+          </Button>
+        </SheetTrigger>
+
+
+        <SheetContent side={"left"}>
+            <SheetHeader>Menu</SheetHeader>
+        </SheetContent>
+      </Sheet>
+
+      
 
       <h1 className="text-lg font-semibold">
         <span className="text-primary">Ecommerce</span> Store
