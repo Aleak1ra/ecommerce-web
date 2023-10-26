@@ -13,9 +13,11 @@ import {
 } from "lucide-react";
 import { Sheet, SheetContent, SheetHeader, SheetTrigger } from "./sheet";
 import { signIn, signOut, useSession } from "next-auth/react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Separator } from "@radix-ui/react-separator";
 
 const Header = () => {
-  const { status } = useSession();
+  const { status, data } = useSession();
   const handleLoginClick = async () => {
     await signIn();
   };
@@ -36,6 +38,28 @@ const Header = () => {
           <SheetHeader className="text-left text-lg font-semibold">
             Menu
           </SheetHeader>
+
+          {status === "authenticated" && data?.user && (
+            <div className="flex flex-col">
+              <div className="flex items-center gap-2 py-4">
+                <Avatar>
+                  <AvatarFallback>
+                    {data.user.name?.[0].toUpperCase()}
+                  </AvatarFallback>
+
+                  {data.user.image && <AvatarImage src={data.user.image} />}
+                </Avatar>
+
+                <div className="flex flex-col">
+                  <p className="font-medium">{data.user.name}</p>
+                  <p className="text-sm opacity-75">Bem-Vindo</p>
+                </div>
+                
+              </div>
+              <Separator />
+            </div>
+          )}
+
           <div className="mt-2 flex flex-col gap-2">
             {status === "unauthenticated" && (
               <Button
