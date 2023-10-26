@@ -1,3 +1,5 @@
+"use client";
+
 import { Card } from "./card";
 import { Button } from "./button";
 import {
@@ -7,10 +9,20 @@ import {
   PercentIcon,
   ListOrderedIcon,
   HomeIcon,
+  LogOutIcon,
 } from "lucide-react";
 import { Sheet, SheetContent, SheetHeader, SheetTrigger } from "./sheet";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 const Header = () => {
+  const { status } = useSession();
+  const handleLoginClick = async () => {
+    await signIn();
+  };
+
+  const handleLogOutClick = async () => {
+    await signOut();
+  };
   return (
     <Card className="flex items-center justify-between p-[1.875rem]">
       <Sheet>
@@ -25,10 +37,27 @@ const Header = () => {
             Menu
           </SheetHeader>
           <div className="mt-2 flex flex-col gap-2">
-            <Button variant="outline" className="w-full justify-start gap-2">
-              <LogInIcon size={16} />
-              Fazer Login
-            </Button>
+            {status === "unauthenticated" && (
+              <Button
+                onClick={handleLoginClick}
+                variant="outline"
+                className="w-full justify-start gap-2"
+              >
+                <LogInIcon size={16} />
+                Fazer Login
+              </Button>
+            )}
+
+            {status === "authenticated" && (
+              <Button
+                onClick={handleLogOutClick}
+                variant="outline"
+                className="w-full justify-start gap-2"
+              >
+                <LogOutIcon size={16} />
+                Fazer Logout
+              </Button>
+            )}
 
             <Button variant="outline" className="w-full justify-start gap-2">
               <HomeIcon size={16} />
