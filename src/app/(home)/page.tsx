@@ -1,4 +1,3 @@
-
 import Image from "next/image";
 import Categories from "./components/categories";
 import { prismaClient } from "@/lib/prisma";
@@ -14,20 +13,20 @@ export default async function Home() {
   });
 
   return (
-    <div className="p-5">
+    <div>
       <Image
         src="/banner-home-01.png"
         width={150}
         height={350}
         alt="Até 55% de desconto"
-        className="h-auto w-full"
+        className="h-auto w-full px-5"
         sizes="100vw"
       />
       <div className="mt-8">
         <Categories />
       </div>
-      <div>
-        <ProductList products={deals}/>
+      <div className="mt-8">
+        <ProductList products={deals} />
       </div>
     </div>
   );
