@@ -1,3 +1,4 @@
+DEPLOY: https://ecommerce-web-aleakira.vercel.app/
 
 *Tecnologias Utilizadas 🚀*
 
