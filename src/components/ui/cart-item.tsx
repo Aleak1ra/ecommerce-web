@@ -1,6 +1,7 @@
 import { ProductWithTotalPrice } from "@/helpers/products";
-
 import Image from "next/image";
+import { Button } from "./button";
+import { ArrowLeftIcon, ArrowRightIcon, TrashIcon } from "lucide-react";
 
 interface CartItemProps {
   product: ProductWithTotalPrice;
@@ -8,8 +9,8 @@ interface CartItemProps {
 
 const CartItem = ({ product }: CartItemProps) => {
   return (
-    <div className="items-center flex gap-2">
-      <div className="items-center flex gap-2">
+    <div className="flex items-center justify-between ">
+      <div className="flex items-center gap-4 ">
         <div className="flex h-[77px] w-[77px] items-center justify-center rounded-lg bg-accent ">
           <Image
             src={product.imageUrls[0]}
@@ -20,20 +21,37 @@ const CartItem = ({ product }: CartItemProps) => {
             className="h-max-[70%] w-max-[80%] h-auto w-auto"
           />
         </div>
-      </div>
 
-      <div className="flex flex-col">
-        <p className="text-xs">{product.name}</p>
+        <div className="flex flex-col">
+          <p className="text-xs">{product.name}</p>
 
-        <div className="flex items-center gap-2">
-                  <p className="text-sm font-bold">R$ {product.totalPrice.toFixed(2)}</p>
-                  
+          <div className="flex items-center gap-2">
+            <p className="text-sm font-bold">
+              R$ {product.totalPrice.toFixed(2)}
+            </p>
 
-                  {product.discountPercentage > 0 && (
-                      <p className="text-xs line-through opacity-75">R$ {Number(product.basePrice) }</p>
-                  )}
+            {product.discountPercentage > 0 && (
+              <p className="text-xs line-through opacity-75">
+                R$ {Number(product.basePrice)}
+              </p>
+            )}
+          </div>
+          <div className="flex items-center gap-1">
+            <Button size={"icon"} variant={"outline"} className="h-8 w-8">
+              <ArrowLeftIcon size={16} />
+            </Button>
+
+            <span className="text-base font-extrabold">{product.quantity}</span>
+
+            <Button size={"icon"} variant={"outline"} className="h-8 w-8">
+              <ArrowRightIcon size={16} />
+            </Button>
+          </div>
         </div>
       </div>
+      <Button size={"icon"} variant={"outline"}>
+        <TrashIcon size={16}/>
+      </Button>
     </div>
   );
 };

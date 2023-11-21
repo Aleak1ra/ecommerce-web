@@ -18,7 +18,12 @@ const Cart = () => {
         Meu carrinho
       </Badge>
 
-          {products.map(product => <CartItem key={product.name} product={computeProductTotalPrice(product as any) as any}/>)}
+      {products.map((product) => (
+        <CartItem
+          key={product.name}
+          product={computeProductTotalPrice(product as any) as any}
+        />
+      ))}
     </div>
   );
 };
