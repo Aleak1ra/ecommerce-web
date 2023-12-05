@@ -3,10 +3,10 @@ import Image from "next/image";
 import { Button } from "./button";
 import { ArrowLeftIcon, ArrowRightIcon, TrashIcon } from "lucide-react";
 import { useContext } from "react";
-import { CartContext } from "@/providers/cart";
+import { CartContext, CartProduct } from "@/providers/cart";
 
 interface CartItemProps {
-  product: ProductWithTotalPrice;
+  product: CartProduct;
 }
 
 const CartItem = ({ product }: CartItemProps) => {
