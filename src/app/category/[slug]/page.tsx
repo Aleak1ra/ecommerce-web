@@ -1,7 +1,7 @@
 import { CATEGORY_ICON } from "@/app/constants/category-icon";
 import { Badge } from "@/components/ui/badge";
 import ProductItem from "@/components/ui/product-item";
-import { computeProductTotalPrice } from "@/helpers/products";
+import { computeProductTotalPrice } from "@/helpers/product";
 
 import { prismaClient } from "@/lib/prisma";
 import { ShapesIcon } from "lucide-react";

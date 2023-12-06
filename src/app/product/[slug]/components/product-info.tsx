@@ -2,13 +2,9 @@
 
 import { Button } from "@/components/ui/button";
 import DiscountBadge from "@/components/ui/discount-badge";
-import { ProductWithTotalPrice } from "@/helpers/products";
+import { ProductWithTotalPrice } from "@/helpers/product";
 import { CartContext } from "@/providers/cart";
-import {
-  ArrowLeftIcon,
-  ArrowRightIcon,
-  TruckIcon,
-} from "lucide-react";
+import { ArrowLeftIcon, ArrowRightIcon, TruckIcon } from "lucide-react";
 import { useContext, useState } from "react";
 
 interface ProductInfoProps {
@@ -17,7 +13,7 @@ interface ProductInfoProps {
 
 const ProductInfo = ({ product }: ProductInfoProps) => {
   const [quantity, setQuantity] = useState(1);
-   const { addProductToCart } = useContext(CartContext);
+  const { addProductToCart } = useContext(CartContext);
 
   const handleIncreaseQuantityClick = () => {
     setQuantity((prev) => prev + 1);
@@ -27,9 +23,9 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
     setQuantity((prev) => (prev === 1 ? prev : prev - 1));
   };
 
-   const handleAddToCartClick = () => {
-     addProductToCart({ ...product, quantity });
-   };
+  const handleAddToCartClick = () => {
+    addProductToCart({ ...product, quantity });
+  };
 
   return (
     <div className="flex flex-col gap-1 px-5">
