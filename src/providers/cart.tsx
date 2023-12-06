@@ -1,7 +1,6 @@
 "use client";
 
 import { ProductWithTotalPrice } from "@/helpers/product";
-import { Product } from "@prisma/client";
 import { ReactNode, createContext, useMemo, useState } from "react";
 
 export interface CartProduct extends ProductWithTotalPrice {
