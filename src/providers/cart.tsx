@@ -1,6 +1,7 @@
 "use client";
 
 import { ProductWithTotalPrice } from "@/helpers/product";
+import { useSession } from "next-auth/react";
 import { ReactNode, createContext, useEffect, useMemo, useState } from "react";
 
 export interface CartProduct extends ProductWithTotalPrice {
@@ -38,6 +39,7 @@ export const CartContext = createContext<ICartContext>({
 const CartProvider = ({ children }: { children: ReactNode }) => {
 
   const isClient = typeof window !== "undefined";
+  const { data: session } = useSession();
 
 
   const [products, setProducts] = useState<CartProduct[]>(
@@ -55,6 +57,12 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
       );
     }
   }, [products, isClient]);
+
+   useEffect(() => {
+     if (!session) {
+       setProducts([]);
+     }
+   }, [session]);
   
 
   const subTotal = useMemo(() => {
