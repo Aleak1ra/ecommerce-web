@@ -54,7 +54,23 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
         JSON.stringify(products),
       );
     }
+
+    const handleBeforeUnload = () => {
+      // Limpa o localStorage antes de descarregar a página
+      localStorage.removeItem("@ecommerce-web/cart-products");
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    // Remove o ouvinte do evento beforeunload quando o componente é desmontado
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+
+
+
   }, [products, isClient]);
+  
 
   const subTotal = useMemo(() => {
     return products.reduce((acc, product) => {
