@@ -1,7 +1,7 @@
 "use client";
 
 import { ProductWithTotalPrice } from "@/helpers/product";
-import { ReactNode, createContext, useMemo, useState } from "react";
+import { ReactNode, createContext, useEffect, useMemo, useState } from "react";
 
 export interface CartProduct extends ProductWithTotalPrice {
   quantity: number;
@@ -13,7 +13,7 @@ interface ICartContext {
   cartBasePrice: number;
   cartTotalDiscount: number;
   total: number;
-  subTotal: number;
+  subTotal: number; 
   totalDiscount: number;
   addProductToCart: (product: CartProduct) => void;
   decreaseProductQuantity: (productId: string) => void;
@@ -36,7 +36,25 @@ export const CartContext = createContext<ICartContext>({
 });
 
 const CartProvider = ({ children }: { children: ReactNode }) => {
-  const [products, setProducts] = useState<CartProduct[]>([]);
+
+  const isClient = typeof window !== "undefined";
+
+
+  const [products, setProducts] = useState<CartProduct[]>(
+    isClient
+      ? JSON.parse(localStorage.getItem("@ecommerce-web/cart-products") || "[]")
+      : [],
+  );
+
+  useEffect(() => {
+    // Verifica se estamos no lado do cliente antes de tentar usar localStorage
+    if (isClient) {
+      localStorage.setItem(
+        "@ecommerce-web/cart-products",
+        JSON.stringify(products),
+      );
+    }
+  }, [products, isClient]);
 
   const subTotal = useMemo(() => {
     return products.reduce((acc, product) => {
