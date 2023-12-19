@@ -1,7 +1,6 @@
 "use client";
 
 import { ProductWithTotalPrice } from "@/helpers/product";
-import { useSession } from "next-auth/react";
 import { ReactNode, createContext, useEffect, useMemo, useState } from "react";
 
 export interface CartProduct extends ProductWithTotalPrice {
@@ -14,7 +13,7 @@ interface ICartContext {
   cartBasePrice: number;
   cartTotalDiscount: number;
   total: number;
-  subTotal: number; 
+  subtotal: number;
   totalDiscount: number;
   addProductToCart: (product: CartProduct) => void;
   decreaseProductQuantity: (productId: string) => void;
@@ -28,7 +27,7 @@ export const CartContext = createContext<ICartContext>({
   cartBasePrice: 0,
   cartTotalDiscount: 0,
   total: 0,
-  subTotal: 0,
+  subtotal: 0,
   totalDiscount: 0,
   addProductToCart: () => {},
   decreaseProductQuantity: () => {},
@@ -37,11 +36,10 @@ export const CartContext = createContext<ICartContext>({
 });
 
 const CartProvider = ({ children }: { children: ReactNode }) => {
-
+  // Verifica se o código está sendo executado no lado do cliente (navegador)
   const isClient = typeof window !== "undefined";
-  const { data: session } = useSession();
 
-
+  // Carrega os produtos do localStorage apenas se estivermos no lado do cliente
   const [products, setProducts] = useState<CartProduct[]>(
     isClient
       ? JSON.parse(localStorage.getItem("@ecommerce-web/cart-products") || "[]")
@@ -58,28 +56,24 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [products, isClient]);
 
-   useEffect(() => {
-     if (!session) {
-       setProducts([]);
-     }
-   }, [session]);
-  
-
-  const subTotal = useMemo(() => {
+  // Total sem descontos
+  const subtotal = useMemo(() => {
     return products.reduce((acc, product) => {
       return acc + Number(product.basePrice) * product.quantity;
     }, 0);
   }, [products]);
 
+  // Total com descontos
   const total = useMemo(() => {
     return products.reduce((acc, product) => {
       return acc + product.totalPrice * product.quantity;
     }, 0);
   }, [products]);
 
-  const totalDiscount = subTotal - total;
+  const totalDiscount = subtotal - total;
 
   const addProductToCart = (product: CartProduct) => {
+    // se o produto já estiver no carrinho, apenas aumente a sua quantidade
     const productIsAlreadyOnCart = products.some(
       (cartProduct) => cartProduct.id === product.id,
     );
@@ -93,38 +87,53 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
               quantity: cartProduct.quantity + product.quantity,
             };
           }
+
           return cartProduct;
         }),
       );
+
       return;
     }
 
+    // se não, adicione o produto à lista
     setProducts((prev) => [...prev, product]);
   };
 
   const decreaseProductQuantity = (productId: string) => {
     setProducts((prev) =>
-      prev.map((cartProduct) =>
-        cartProduct.id === productId && cartProduct.quantity > 1
-          ? { ...cartProduct, quantity: cartProduct.quantity - 1 }
-          : cartProduct,
-      ),
+      prev
+        .map((cartProduct) => {
+          if (cartProduct.id === productId) {
+            return {
+              ...cartProduct,
+              quantity: cartProduct.quantity - 1,
+            };
+          }
+
+          return cartProduct;
+        })
+        .filter((cartProduct) => cartProduct.quantity > 0),
     );
   };
 
   const increaseProductQuantity = (productId: string) => {
     setProducts((prev) =>
-      prev.map((cartProduct) =>
-        cartProduct.id === productId && cartProduct.quantity > 1
-          ? { ...cartProduct, quantity: cartProduct.quantity + 1 }
-          : cartProduct,
-      ),
+      prev.map((cartProduct) => {
+        if (cartProduct.id === productId) {
+          return {
+            ...cartProduct,
+            quantity: cartProduct.quantity + 1,
+          };
+        }
+
+        return cartProduct;
+      }),
     );
   };
 
   const removeProductFromCart = (productId: string) => {
     setProducts((prev) =>
-      prev.filter((cartProduct) => cartProduct.id != productId),
+      prev.filter((cartProduct) => cartProduct.id !== productId),
     );
   };
 
@@ -137,7 +146,7 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
         increaseProductQuantity,
         removeProductFromCart,
         total,
-        subTotal,
+        subtotal,
         totalDiscount,
         cartTotalPrice: 0,
         cartBasePrice: 0,

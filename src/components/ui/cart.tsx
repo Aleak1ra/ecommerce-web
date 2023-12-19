@@ -11,7 +11,7 @@ import { createCheckout } from "@/actions/checkout";
 import { loadStripe } from "@stripe/stripe-js";
 
 const Cart = () => {
-  const { products, subTotal, total, totalDiscount } = useContext(CartContext);
+  const { products, subtotal, total, totalDiscount } = useContext(CartContext);
 
   const handleFinishPurchaseClick = async () => {
     const cheackout = await createCheckout(products);
@@ -51,7 +51,7 @@ const Cart = () => {
 
         <div className="flex items-center justify-between text-xs">
           <p>Subtotal</p>
-          <p>R$ {subTotal.toFixed(2)}</p>
+          <p>R$ {subtotal.toFixed(2)}</p>
         </div>
 
         <Separator />
