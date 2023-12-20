@@ -41,9 +41,21 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground h-full;
+    @apply h-full bg-background text-foreground;
   }
   html {
     @apply h-full;
+  }
+
+  .header-fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+  }
+
+  .content{
+    margin-top: 80px;
   }
 }

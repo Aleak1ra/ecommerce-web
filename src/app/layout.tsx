@@ -26,7 +26,7 @@ export default function RootLayout({
           <AuthProvider>
             <CartProvider>
               <Header />
-              <div className="flex-1">{children}</div>
+              <div className="flex-1 content">{children}</div>
               <Footer />
             </CartProvider>
           </AuthProvider>
