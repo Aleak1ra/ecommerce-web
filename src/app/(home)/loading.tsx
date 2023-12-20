@@ -16,8 +16,8 @@ const Loading = () => {
   }, []);
 
   return (
-    <div className="flex items-center justify-center">
-      <Progress value={progressValue} />
+    <div className="flex items-center justify-center min-h-screen">
+      <Progress value={progressValue} style={{ height: "10px", width: "50%" }} />
     </div>
   );
 };
