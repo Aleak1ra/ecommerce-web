@@ -41,8 +41,8 @@ export default async function Home() {
       <div>
         <Link href={"/deals"}>
           <SectionTitle>Ofertas</SectionTitle>
-          <ProductList products={deals} />
         </Link>
+        <ProductList products={deals} />
       </div>
 
       <PromoBanner
@@ -53,8 +53,8 @@ export default async function Home() {
       <div>
         <Link href={"/category/keyboards"}>
           <SectionTitle>Teclados</SectionTitle>
-          <ProductList products={keyboards} />
         </Link>
+        <ProductList products={keyboards} />
       </div>
 
       <PromoBanner
@@ -65,8 +65,8 @@ export default async function Home() {
       <div>
         <Link href={"/category/mouses"}>
           <SectionTitle>Mouses</SectionTitle>
-          <ProductList products={mouses} />
         </Link>
+        <ProductList products={mouses} />
       </div>
     </div>
   );
