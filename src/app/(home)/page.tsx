@@ -31,13 +31,17 @@ export default async function Home() {
   });
 
   return (
-    <div className="flex flex-col gap-8 py-8">
-      <Link href={"/deals"}>
-        <PromoBanner src="/banner-home-01.png" alt="Até 55% de desconto" />
-      </Link>
-      <div>
+    <div className="mx-auto flex flex-col gap-8 py-8 lg:w-9/12 ">
+      <div className="">
         <Categories />
       </div>
+
+      <div className="">
+        <Link href={"/deals"}>
+          <PromoBanner src="/banner-home-01.png" alt="Até 55% de desconto" />
+        </Link>
+      </div>
+
       <div>
         <Link href={"/deals"}>
           <SectionTitle>Ofertas</SectionTitle>
@@ -45,10 +49,12 @@ export default async function Home() {
         <ProductList products={deals} />
       </div>
 
-      <PromoBanner
-        src="/banner-home-02.png"
-        alt="Até 55% de desconto em mouses"
-      />
+      <div className="">
+        <PromoBanner
+          src="/banner-home-02.png"
+          alt="Até 55% de desconto em mouses"
+        />
+      </div>
 
       <div>
         <Link href={"/category/keyboards"}>
@@ -57,10 +63,12 @@ export default async function Home() {
         <ProductList products={keyboards} />
       </div>
 
-      <PromoBanner
-        src="/banner-home-03.png"
-        alt="Até 55% de desconto em mouses"
-      />
+      <div className="">
+        <PromoBanner
+          src="/banner-home-03.png"
+          alt="Até 55% de desconto em mouses"
+        />
+      </div>
 
       <div>
         <Link href={"/category/mouses"}>
