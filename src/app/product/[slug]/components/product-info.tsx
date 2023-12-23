@@ -1,10 +1,11 @@
 "use client";
 
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import DiscountBadge from "@/components/ui/discount-badge";
 import { ProductWithTotalPrice } from "@/helpers/product";
 import { CartContext } from "@/providers/cart";
-import { ArrowLeftIcon, ArrowRightIcon, TruckIcon } from "lucide-react";
+import { ArrowLeftIcon, ArrowRightIcon, ShoppingCart, Terminal, TruckIcon } from "lucide-react";
 import { useContext, useState } from "react";
 
 interface ProductInfoProps {
@@ -14,6 +15,7 @@ interface ProductInfoProps {
 const ProductInfo = ({ product }: ProductInfoProps) => {
   const [quantity, setQuantity] = useState(1);
   const { addProductToCart } = useContext(CartContext);
+  const [showAlert, setShowAlert] = useState(false);
 
   const handleIncreaseQuantityClick = () => {
     setQuantity((prev) => prev + 1);
@@ -25,7 +27,14 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
 
   const handleAddToCartClick = () => {
     addProductToCart({ ...product, quantity });
+    setShowAlert(true);
+    setTimeout(() => {
+      setShowAlert(false);
+    }, 2500);
   };
+
+
+  
 
   return (
     <div className="flex flex-col gap-1 px-5">
@@ -35,7 +44,7 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
           R$ {product.totalPrice.toFixed(2)}
         </h1>
         {product.discountPercentage > 0 && (
-          <DiscountBadge>{product.discountPercentage}</DiscountBadge>
+          <DiscountBadge className="animate-bounce">{product.discountPercentage}</DiscountBadge>
         )}
       </div>
 
@@ -77,6 +86,16 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
       >
         Adicionar ao carrinho
       </Button>
+
+      <div className="fixed bottom-4 right-4 z-50">
+        {showAlert && (
+          <Alert>
+            <ShoppingCart className="animate-bounce h-4 w-4" />
+            <AlertTitle>Pronto!</AlertTitle>
+            <AlertDescription>Produto adicionado ao carrinho.</AlertDescription>
+          </Alert>
+        )}
+      </div>
 
       <div className="mt-5 flex items-center justify-between rounded-lg bg-accent px-5 py-2 ">
         <div className="flex items-center gap-2">
