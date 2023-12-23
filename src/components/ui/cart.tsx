@@ -1,7 +1,7 @@
 import { ShoppingCartIcon } from "lucide-react";
 import { Badge } from "./badge";
 import { useContext } from "react";
-import { CartContext } from "@/providers/cart";
+import { CartContext, CartProduct } from "@/providers/cart";
 import CartItem from "./cart-item";
 import { computeProductTotalPrice } from "@/helpers/product";
 import { Separator } from "./separator";
@@ -10,8 +10,13 @@ import { Button } from "./button";
 import { createCheckout } from "@/actions/checkout";
 import { loadStripe } from "@stripe/stripe-js";
 
+export const calculateTotalProductsCount = (products: CartProduct[]) =>
+  products.reduce((acc, product) => acc + product.quantity, 0);
+
 const Cart = () => {
   const { products, subtotal, total, totalDiscount } = useContext(CartContext);
+
+  const totalProductsCount = calculateTotalProductsCount(products);
 
   const handleFinishPurchaseClick = async () => {
     const cheackout = await createCheckout(products);

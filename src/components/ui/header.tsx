@@ -22,9 +22,14 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@radix-ui/react-separator";
 import Link from "next/link";
-import Cart from "./cart";
+import Cart, { calculateTotalProductsCount } from "./cart";
+import { useContext, useEffect, useState } from "react";
+import { CartProduct } from "@/providers/cart";
+import { CartContext } from "@/providers/cart";
 
 const Header = () => {
+  const [totalProductsCount, setTotalProductsCount] = useState<number>(0);
+  const { products } = useContext(CartContext);
   const { status, data } = useSession();
   const handleLoginClick = async () => {
     await signIn();
@@ -33,8 +38,18 @@ const Header = () => {
   const handleLogOutClick = async () => {
     await signOut();
   };
+
+  useEffect(() => {
+    const updateTotalProductsCount = async () => {
+      const count = await calculateTotalProductsCount(products);
+      setTotalProductsCount(count);
+    };
+
+    updateTotalProductsCount();
+  }, [products]);
+
   return (
-    <Card className="flex items-center justify-between p-[1.875rem] header-fixed">
+    <Card className="header-fixed flex items-center justify-between p-[1.875rem]">
       <Sheet>
         <SheetTrigger asChild>
           <Button size="icon" variant="outline">
@@ -103,12 +118,16 @@ const Header = () => {
             </SheetClose>
 
             <SheetClose asChild>
-            <Link href={"/deals"}>
-              <Button variant="outline" className="w-full justify-start gap-2">
-                <PercentIcon size={16} />
-                Ofertas
-              </Button>
-            </Link></SheetClose>
+              <Link href={"/deals"}>
+                <Button
+                  variant="outline"
+                  className="w-full justify-start gap-2"
+                >
+                  <PercentIcon size={16} />
+                  Ofertas
+                </Button>
+              </Link>
+            </SheetClose>
 
             <SheetClose asChild>
               <Link href={"/catalog"}>
@@ -135,6 +154,11 @@ const Header = () => {
         <SheetTrigger asChild>
           <Button size="icon" variant={"outline"}>
             <ShoppingCartIcon />
+            {totalProductsCount > 0 && (
+              <span className="absolute right-4 top-4 rounded-full bg-red-500 px-1 text-white">
+                {totalProductsCount}
+              </span>
+            )}
           </Button>
         </SheetTrigger>
 
