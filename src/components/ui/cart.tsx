@@ -16,7 +16,7 @@ export const calculateTotalProductsCount = (products: CartProduct[]) =>
 const Cart = () => {
   const { products, subtotal, total, totalDiscount } = useContext(CartContext);
 
-  const totalProductsCount = calculateTotalProductsCount(products);
+  
 
   const handleFinishPurchaseClick = async () => {
     const cheackout = await createCheckout(products);

@@ -30,7 +30,7 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
     setShowAlert(true);
     setTimeout(() => {
       setShowAlert(false);
-    }, 2500);
+    }, 3000);
   };
 
 
@@ -87,7 +87,7 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
         Adicionar ao carrinho
       </Button>
 
-      <div className="fixed bottom-4 right-4 z-50">
+      <div className="md:fixed md:top-[110px] md:right-2 sm:fixed sm:top-[100px] sm:right-5 z-50">
         {showAlert && (
           <Alert>
             <ShoppingCart className="animate-bounce h-4 w-4" />
@@ -97,11 +97,11 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
         )}
       </div>
 
-      <div className="mt-5 flex items-center justify-between rounded-lg bg-accent px-5 py-2 ">
+      <div className="mt-5 flex items-center justify-between rounded-lg bg-accent px-5 py-2 text-center">
         <div className="flex items-center gap-2">
           <TruckIcon size={30} />
         </div>
-        <div className="flex flex-col ">
+        <div className="flex flex-col justify-center items-center ">
           <p className="text-xs ">
             Entrega via <span className="font-bold">Feddex Packet®</span>
           </p>
